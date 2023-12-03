@@ -1,3 +1,3 @@
-git add -u
+git add *
 git commit -m "your commit message"
-git push origin master 
+git push origin main 
