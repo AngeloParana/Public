@@ -6,4 +6,4 @@ let
 in 
     if GetTheParent = null then "0"
     else 
-        Text.From(PathItems(prevTable,GetTheParent)) & "|" & Text.From(GetTheParent)
+        Text.From(#"Invoked Function"(prevTable,GetTheParent)) & "|" & Text.From(GetTheParent)
