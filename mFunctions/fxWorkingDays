@@ -1,0 +1,12 @@
+(StartDate,EndDate)=>
+let
+    myStartDate =  Date.From(StartDate),
+    myEndDate = Date.From(EndDate),
+    Difference = myEndDate - myStartDate,
+    DurationInDays = Duration.Days(Difference),
+    ListOfDays = List.Dates(myStartDate,DurationInDays,#duration(1,0,0,0)),
+    TransformToDayOfWeek = List.Transform(ListOfDays,each Date.DayOfWeek(_)),
+    RemoveWeekEnds = List.Select(TransformToDayOfWeek, each _<5),
+    CountOfDays = List.Count(RemoveWeekEnds) +1
+in
+    CountOfDays
