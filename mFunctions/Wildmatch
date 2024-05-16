@@ -1,0 +1,39 @@
+(Phrase,Pattern) =>
+
+let
+
+PatternList = Text.Split(Pattern, "%"),
+
+StartsWithWc = (List.First(PatternList)=""),
+
+EndsWithWc = (List.Last(PatternList)=""),
+
+StartsTest = if (StartsWithWc=false) then Text.StartsWith(Phrase, List.First(PatternList)) else true,
+
+EndsText = if (EndsWithWc=false) then Text.EndsWith(Phrase, List.Last(PatternList)) else true,
+
+PhraseFind = (Phrase as text, SearchString as list) =>
+let
+
+StringPos = Text.PositionOf(Phrase, SearchString{0}, Occurrence.First),
+PhraseFindOutput =
+if
+
+(StringPos=-1)
+then false
+else if
+
+List.Count(SearchString)=1
+then true
+else
+
+(true and
+@PhraseFind(
+Text.RemoveRange(Phrase, 0, StringPos + Text.Length(SearchString{0})),
+List.RemoveRange(SearchString, 0, 1)))
+in
+PhraseFindOutput,
+
+Output = StartsTest and EndsText and PhraseFind(Phrase, PatternList)
+in
+Output
