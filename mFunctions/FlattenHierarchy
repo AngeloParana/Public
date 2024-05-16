@@ -1,1 +1,9 @@
 
+(prevTable as table,UserID as number) =>
+let 
+    FilterTableByUser = Table.SelectRows(prevTable,each [UserID]=UserID),
+    GetTheParent =  FilterTableByUser[ParentID]{0}
+in 
+    if GetTheParent = null then "0"
+    else 
+        Text.From(PathItems(prevTable,GetTheParent)) & "|" & Text.From(GetTheParent)
