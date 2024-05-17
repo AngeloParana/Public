@@ -1,0 +1,16 @@
+(mySource as table,numberOfHeaders as number)=>
+let
+    Sheet1_Sheet = mySource,
+    NumberOfHeaders = Table.FirstN(Sheet1_Sheet,numberOfHeaders),
+    RotateTable = Table.Transpose(NumberOfHeaders),
+    ColumnNames = Table.ColumnNames(RotateTable),
+    FilledDownHeader = Table.FillDown(RotateTable,ColumnNames),
+    ChangeType = Table.TransformColumnTypes(FilledDownHeader,List.Transform(ColumnNames, each {_,type text})),
+    MergeColumns = Table.CombineColumns(ChangeType,ColumnNames,Combiner.CombineTextByDelimiter(" ", QuoteStyle.None),"Merged"),
+    Normalize = Table.Transpose(MergeColumns),
+    ToRecords = Table.ToRecords(Normalize),
+    TableOfRows = Table.Skip(Sheet1_Sheet,numberOfHeaders),
+    InsertHeaders = Table.InsertRows(TableOfRows,0,ToRecords),
+    PromoteHeaders = Table.PromoteHeaders(InsertHeaders)
+in
+    PromoteHeaders
