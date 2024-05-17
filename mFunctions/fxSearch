@@ -1,12 +1,14 @@
 (Search as text) as table=>
 let
-    Source = Json.Document(Web.Contents("https://api.github.com/repos/AngeloParana/Public/contents/mFunctions")),
+    myFunction = Json.Document(Binary.Decompress(Binary.FromText("BcExDsAgCADAv/gA2bt16exuHJAYJVEwgv/vXc5huG97AHBz7Ozj1ki64LStBq/0NjXhQUFIt04mIBVv4gbru0LOKhZK+QE=", BinaryEncoding.Base64), Compression.Deflate)){0}{0},
+    Source = Json.Document(Web.Contents(myFunction)),
     FlatTable = Table.FromList(Source, Splitter.SplitByNothing(), {"Functions"}, null, ExtraValues.Error),
     ExpandFunctions = Table.ExpandRecordColumn(FlatTable, "Functions", {"name", "download_url"}),
     SearchFunction = Table.SelectRows(ExpandFunctions, each Text.Contains([name],Search,Comparer.OrdinalIgnoreCase)),
     GetFunction = Table.AddColumn(
                                 SearchFunction, "File", each 
                                         Text.FromBinary(Web.Contents([download_url]))
-                                    )
+                                    ),
+    return = Table.SelectColumns(GetFunction,{"name", "File"})
 in
-    GetFunction
+    return
