@@ -1,7 +1,6 @@
-(startdate as date) =>
 let
     Today = Date.From( DateTime.LocalNow() ),
-    StartDate = Date.From(startdate),
+    StartDate = #date(Date.Year(Today)-5,01,01),
     EndDate = Date.EndOfYear( Today ),
     ListOfDates = List.Dates( StartDate, Duration.Days( EndDate - StartDate ) +1, #duration( 1, 0, 0, 0 ) ),
     DateTable = Table.FromList( ListOfDates, Splitter.SplitByNothing(), type table[Date = Date.Type] ),
