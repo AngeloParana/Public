@@ -1,9 +1,8 @@
-
 (prevTable as table,UserID as number) =>
 let 
-    FilterTableByUser = Table.SelectRows(prevTable,each [UserID]=UserID),
-    GetTheParent =  FilterTableByUser[ParentID]{0}
+    FilterTableByUser = Table.SelectRows(prevTable,each [Child]=UserID),
+    GetTheParent =  FilterTableByUser[Parent]{0}
 in 
-    if GetTheParent = null then "0"
+    if GetTheParent = null then Text.From(UserID)
     else 
-        Text.From(#"Invoked Function"(prevTable,GetTheParent)) & "|" & Text.From(GetTheParent)
+          Text.From(@fxFlattenParentChild(prevTable,GetTheParent)) & "|" & Text.From(UserID) 
