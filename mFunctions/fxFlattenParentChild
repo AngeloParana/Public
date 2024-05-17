@@ -1,4 +1,4 @@
-(prevTable as table,UserID as number) =>
+(prevTable as table,UserID) as text=>
 let 
     FilterTableByUser = Table.SelectRows(prevTable,each [Child]=UserID),
     GetTheParent =  FilterTableByUser[Parent]{0}
