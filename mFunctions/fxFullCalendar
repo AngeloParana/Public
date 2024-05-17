@@ -1,0 +1,47 @@
+(startdate as date) =>
+let
+    Today = Date.From( DateTime.LocalNow() ),
+    StartDate = Date.From(startdate),
+    EndDate = Date.EndOfYear( Today ),
+    ListOfDates = List.Dates( StartDate, Duration.Days( EndDate - StartDate ) +1, #duration( 1, 0, 0, 0 ) ),
+    DateTable = Table.FromList( ListOfDates, Splitter.SplitByNothing(), type table[Date = Date.Type] ),
+    DateInt = Table.AddColumn(DateTable, "Date Integer", each Number.From( Date.ToText( [Date], "yyyyMMdd" ) ), Int64.Type ),
+    InsertYear = Table.AddColumn(DateInt, "Year", each Date.Year([Date]), Int64.Type),
+    // Creates a dynamic year value called 'Current' that moves with the current date. Put this value in a slicer and it automatically switches to the Current period.
+    CurrentYear = Table.AddColumn(InsertYear, "Year Default", each if Date.Year( Today ) = [Year] then "Current" else Text.From( [Year] ), type text),
+    YYYYMM = Table.AddColumn(CurrentYear, "YYYY-MM", each Date.ToText( [Date], "yyyy-MM"), type text),
+    MMMYYYY = Table.AddColumn(YYYYMM, "Month-Year", each Date.ToText( [Date], "MMM yyyy"), type text),
+    MM = Table.AddColumn(MMMYYYY, "Month Of Year", each Date.Month([Date]), Int64.Type),
+    MMMM = Table.AddColumn(MM, "Month Name", each Date.MonthName([Date], "EN-us"), type text),
+    MMM = Table.AddColumn(MMMM, "Month Name Short", each Date.ToText( [Date] , "MMM", "EN-us" ), type text),
+    // Creates a dynamic year value called 'Current' that moves with the current date. Put this value in a slicer and it automatically switches to the current period.
+    CurentMonth = Table.AddColumn(MMM, "Month Name Default", each if Date.Month( Today ) = [Month Of Year] then "Current" else [Month Name], type text ),
+    MonthStart = Table.AddColumn(CurentMonth, "Start of Month", each Date.StartOfMonth([Date]), type date),
+    MonthEnd = Table.AddColumn(MonthStart, "End of Month", each Date.EndOfMonth( [Date] ), type date),
+    DaysInMonth = Table.AddColumn(MonthEnd, "Days in Month", each Date.DaysInMonth([Date]), Int64.Type),
+    WeekNum = Table.AddColumn(DaysInMonth, "ISO Weeknumber", each let
+   CurrentThursday = Date.AddDays([Date], 3 - Date.DayOfWeek([Date], Day.Monday ) ),
+   YearCurrThursday = Date.Year( CurrentThursday ),
+   FirstThursdayOfYear = Date.AddDays(#date( YearCurrThursday,1,7),- Date.DayOfWeek(#date(YearCurrThursday,1,1), Day.Friday) ),
+   ISO_Week = Duration.Days( CurrentThursday - FirstThursdayOfYear) / 7 + 1
+in ISO_Week, Int64.Type ),
+    ISOYear = Table.AddColumn(WeekNum, "ISO Year", each Date.Year(  Date.AddDays( [Date], 26 - [ISO Weeknumber] ) ), Int64.Type ),
+    StartOfWeek = Table.AddColumn(ISOYear, "Start of Week", each Date.StartOfWeek([Date], Day.Monday ), type date),
+    QuarterNum = Table.AddColumn(StartOfWeek, "Quarter Number", each Date.QuarterOfYear([Date]), Int64.Type),
+    QuarterName = Table.AddColumn(QuarterNum, "Quarter", each "Q" & Text.From( Date.QuarterOfYear([Date]) ), type text ),
+    YYYYQQ = Table.AddColumn(QuarterName, "Year-Quarter", each Text.From( Date.Year([Date]) ) & "-Q" & Text.From( Date.QuarterOfYear([Date]) ), type text ),
+    DayName = Table.AddColumn(YYYYQQ, "Day Name", each Date.DayOfWeekName([Date], "EN-us" ), type text),
+    DayNameShort = Table.AddColumn( DayName, "Day Name Short", each Date.ToText( [Date], "ddd", "EN-us" ), type text),
+    DayOfTheMonth = Table.AddColumn(DayNameShort, "Day of Month Number", each Date.Day([Date]), Int64.Type),
+    // Day.Monday indicates the week starts on Monday. Change this in case you want the week to start on a different date. 
+    DayOfTheWeek = Table.AddColumn(DayOfTheMonth, "Day of Week Number", each Date.DayOfWeek( [Date], Day.Monday ), Int64.Type),
+    DayOfYear = Table.AddColumn(DayOfTheWeek, "Day of Year Number", each Date.DayOfYear( [Date] ), Int64.Type),
+    DayOffset = Table.AddColumn(DayOfYear, "Day Offset", each Number.From( Date.From( Today ) - [Date] ) , Int64.Type ),
+    WeekOffset = Table.AddColumn(DayOffset, "Week Offset", each Duration.Days( Date.StartOfWeek( [Date], Day.Monday ) - Date.StartOfWeek( Today, Day.Monday ) ) / 7 , Int64.Type ),
+    MonthOffset = Table.AddColumn(WeekOffset, "Month Offset", each ( [Year] - Date.Year( Today ) ) * 12 + ( [Month Of Year] - Date.Month( Today ) ), Int64.Type ),
+    QuaterOffset = Table.AddColumn(MonthOffset, "Quarter Offset", each ( [Year] - Date.Year(Today) ) * 4 + Date.QuarterOfYear( [Date] ) - Date.QuarterOfYear( Today ), Int64.Type ),
+    YearOffset = Table.AddColumn(QuaterOffset, "Year Offset", each [Year] - Date.Year(Today), Int64.Type ),
+    IsWeekEnd = Table.AddColumn(YearOffset, "Is Weekend", each if Date.DayOfWeek( [Date] ) >= 5 then 1 else 0, Int64.Type ),
+    IsWeekDay = Table.AddColumn(IsWeekEnd, "Is Weekday", each if Date.DayOfWeek( [Date] ) < 5 then 1 else 0, Int64.Type )
+in
+    IsWeekDay
