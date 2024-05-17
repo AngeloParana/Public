@@ -9,7 +9,7 @@ metaDocumentation = type function (
     ])
 ) as text meta [
 Documentation.Name = "Search Function by Angelo Parana",
-Documentation.LongDescription = "This Power Query M designed to query custom Functions on my repository"
+Documentation.LongDescription = "This Power Query M designed to query custom Functions on a repository"
 ],
 
 
