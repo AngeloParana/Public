@@ -1,10 +1,10 @@
 let
 
 metaDocumentation = type function (
-    message1 as (type text meta [
+    searchtext as (type text meta [
         Documentation.FieldCaption = "Search any keyword of a custom function",
         Documentation.SampleValues = {"Search.."},
-        Formatting.IsMultiLine = true,
+        // Formatting.IsMultiLine = true,
         Formatting.IsCode = true
     ])
 ) as text meta [
