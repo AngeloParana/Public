@@ -5,4 +5,4 @@ let
 in 
     if GetTheParent = null then Text.From(UserID)
     else 
-          Text.From(@#"Invoked Function"#f(prevTable,GetTheParent)) & "|" & Text.From(UserID) 
+          Text.From(@#"Invoked Function"(prevTable,GetTheParent)) & "|" & Text.From(UserID) 
