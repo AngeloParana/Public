@@ -1,0 +1,12 @@
+(tableName as table)=>
+let 
+    //Convert each columns to proper case and replacing the underscore with space
+    ProperCase = List.Transform(Table.ColumnNames(tableName), each {_,Text.Replace(Text.Proper(_),"_"," ")}), 
+
+    //Renaming the columns to Propercase
+    RenameCols = Table.RenameColumns(tableName,ProperCase),
+
+    //Remove special characters 
+    RemoveSpecialChars = Table.TransformColumnNames(RenameCols,each Text.Select(_,{"A".."z"," "}))
+    
+in RemoveSpecialChars
