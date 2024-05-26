@@ -17,7 +17,7 @@ Documentation.LongDescription = "This Power Query M designed to query custom Fun
 CustomFunction =
     (Search as text) as table=>
         let
-            myFunction = Json.Document(Binary.Decompress(Binary.FromText("BcExDsAgCADAv/gA2bt16exuHJAYJVEwgv/vXc5huG97AHBz7Ozj1ki64LStBq/0NjXhQUFIt04mIBVv4gbru0LOKhZK+QE=", BinaryEncoding.Base64), Compression.Deflate)){0}{0},
+            myFunction = Json.Document(Binary.Decompress(Binary.FromText("BcHBDYAgDADAXRyA/v25AX9jCDRVSaBF2sa4vXf7vtxmQ1eAPGq4qt1eAkqHSUMUNr6oScwzc4bopVUEFDZiUxjy0nyc5pfQ1aSn0xmtCutyHD8=", BinaryEncoding.Base64), Compression.Deflate)){0}{0},
             Source = Json.Document(Web.Contents(myFunction)),
             FlatTable = Table.FromList(Source, Splitter.SplitByNothing(), {"Functions"}, null, ExtraValues.Error),
             ExpandFunctions = Table.ExpandRecordColumn(FlatTable, "Functions", {"name", "download_url"}),
