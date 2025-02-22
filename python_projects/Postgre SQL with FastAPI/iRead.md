@@ -9,5 +9,4 @@
 **<Sub>Note : We can utilize the Digital Ocean 200USD Credit for 60 days</sub>*
 
 2. Installing PostgreSQL Server
-   
   A. Open terminal and login with droplet using SSH
