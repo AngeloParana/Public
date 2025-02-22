@@ -2,13 +2,13 @@
 
 1.	Creating a Virtual Machine on Digital Ocean
 
-Virtual Machine Specification
+**Virtual Machine Specification**
 -	Operating System : Ubuntu 24.10 x64
 -	Disk : 10GB
 -	Memory : 512MB
 -	vCPU : 1vCPU
   
-<sub> *Note : Utilize the Digital Ocean 200USD Credit </sub>
+<sub> *Note : Utilize the Digital Ocean 200USD Credit* </sub>
 
 2.	Installing POSTGRE SQL Server 
 a.	Open a terminal and login on droplet using SSH
