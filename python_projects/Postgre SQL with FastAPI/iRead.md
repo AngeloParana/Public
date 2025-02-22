@@ -10,6 +10,7 @@ Note : Utilize the Digital Ocean 200USD Credit
 2.	Installing POSTGRE SQL Server 
 a.	Open a terminal and login on droplet using SSH
 b.	Install PostgreSQL
+
 ```bash
 sudo apt update && sudo apt upgrade -y
 ```
