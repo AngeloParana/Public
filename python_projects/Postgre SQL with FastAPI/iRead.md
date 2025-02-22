@@ -10,9 +10,9 @@
   
 <sub> *Note : Utilize the Digital Ocean 200USD Credit* </sub>
 
-2.	Installing POSTGRE SQL Server 
+2.	Installing POSTGRE SQL Server
+   
 a.	Open a terminal and login on droplet using SSH
-
 b.	Install PostgreSQL
 
 ```bash
