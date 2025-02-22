@@ -6,6 +6,7 @@ Virtual Machine Specification
 -	Disk : 10GB
 -	Memory : 512MB
 -	vCPU : 1vCPU
+  
 **<sub> Note : Utilize the Digital Ocean 200USD Credit </sub>
 2.	Installing POSTGRE SQL Server 
 a.	Open a terminal and login on droplet using SSH
