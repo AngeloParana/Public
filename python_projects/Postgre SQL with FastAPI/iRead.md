@@ -6,4 +6,4 @@
     - Disk : 10GB
     - Memory : 512MB
     - vCPU : 1vCPU <br>
-      **<Sub>Note : We can utilize the Digital Ocean 200USD Credit for 60 days</sub>*
+**<Sub>Note : We can utilize the Digital Ocean 200USD Credit for 60 days</sub>*
