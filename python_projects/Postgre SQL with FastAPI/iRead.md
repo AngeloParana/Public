@@ -10,7 +10,9 @@ Note : Utilize the Digital Ocean 200USD Credit
 2.	Installing POSTGRE SQL Server 
 a.	Open a terminal and login on droplet using SSH
 b.	Install PostgreSQL
+```bash
 sudo apt update && sudo apt upgrade -y
+```
 c.	
 3.	Installing FASTAPI
 4.	Creating python script for exposing the data
