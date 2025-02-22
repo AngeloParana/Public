@@ -12,6 +12,7 @@
 
 2.	Installing POSTGRE SQL Server 
 a.	Open a terminal and login on droplet using SSH
+
 b.	Install PostgreSQL
 
 ```bash
