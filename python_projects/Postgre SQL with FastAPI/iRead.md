@@ -1,6 +1,7 @@
 **Create a POSTGRE SQL server with FASTAPI Integration**
 
 1.	Creating a Virtual Machine on Digital Ocean
+
 Virtual Machine Specification
 -	Operating System : Ubuntu 24.10 x64
 -	Disk : 10GB
